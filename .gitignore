@@ -129,3 +129,12 @@ dmypy.json
 .pyre/
 .idea/
 weights/
+
+# not to upload images
+*.png 
+*.jpg
+*.txt
+*.json
+*.pth 
+*.mars
+.pkl 

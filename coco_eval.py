@@ -62,7 +62,7 @@ def evaluate_coco(img_path, set_name, image_ids, coco, model, threshold=0.05):
         image_info = coco.loadImgs(image_id)[0]
         image_path = img_path + image_info['file_name']
 
-        ori_imgs, framed_imgs, framed_metas = preprocess(image_path, max_size=input_sizes[compound_coef], mean=params['mean'], std=params['std'])
+        ori_imgs, framed_imgs, framed_metas = preprocess(image_path, max_size=640, mean=params['mean'], std=params['std'])
         x = torch.from_numpy(framed_imgs[0])
 
         if use_cuda:
@@ -137,8 +137,13 @@ def _eval(coco_gt, image_ids, pred_json_path):
 
 if __name__ == '__main__':
     SET_NAME = params['val_set']
-    VAL_GT = f'datasets/{params["project_name"]}/annotations/instances_{SET_NAME}.json'
-    VAL_IMGS = f'datasets/{params["project_name"]}/{SET_NAME}/'
+    # for cones
+    VAL_GT = f'../cones_dataset/good/{params["project_name"]}/annotations/instances_{SET_NAME}.json'
+    VAL_IMGS = f'../cones_dataset/good/{params["project_name"]}/{SET_NAME}/'
+
+    # for other datasets that are located the datasets folder.
+    # VAL_GT = f'datasets/{params["project_name"]}/annotations/instances_{SET_NAME}.json'
+    # VAL_IMGS = f'datasets/{params["project_name"]}/{SET_NAME}/'
     MAX_IMAGES = 10000
     coco_gt = COCO(VAL_GT)
     image_ids = coco_gt.getImgIds()[:MAX_IMAGES]
